@@ -1,0 +1,959 @@
+
+//----VARIABLES-----//
+$mainBgColor: #F5AA28;
+$lineColor: #820D2B;
+$commonBorder: 2.5px solid $lineColor;
+$lineBorderWidth: 2.5px;
+$cloud1Color: #F5C678;
+
+// animations variables
+$cloudSpeed: 3s;
+$cloudDelay: 2s;
+$wheelsSpeed: 0.8s;
+$roadTime: 2s;
+$roadDelay: 0.5s;
+$bodyShakeTime: 0.6s;
+$windowSliderSpeed: 2s;
+
+//----MIXINS-----//
+@mixin gridCentre {
+  align-items: center;
+  justify-items: center;
+}
+
+@mixin cloudLightCOlor($color) {
+    background: $color;
+}
+
+@mixin cloudDarkCOlor {
+    background: #F5AA28;
+}
+.mainAllContainer {
+    background: $mainBgColor;
+    height: 380px;
+    width: 100vw;
+    display: grid;
+    @include gridCentre;
+    overflow: hidden;
+    align-content: end;
+
+}
+
+
+.sceneMainWrapper{
+    //containing all:: the sun, the vehicle and clouds
+    //background: red;
+    //border: 1px solid red;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 200px;
+    width: 100%;
+    position: relative;
+    // outer except car body and road
+
+    & .sun {
+        z-index: 99;
+        position: absolute;
+        height: 55px;
+        width: 55px;
+        background: #E51827;
+        border-radius: 50%;
+        right: 50px;
+        top: -75px;
+    }
+    & .cloud{
+        position: absolute;
+        height: 55px;
+        width: 150px;
+        & .row {
+            background: inherit;
+            height: 10px;
+
+            &:nth-child(odd){
+                background: $mainBgColor !important;
+            }
+            &:nth-child(even){
+                background: $cloud1Color !important;
+            }
+            .c{
+                height: 100%;
+                position: absolute;
+                top: 0px;
+                border-radius: 5px;
+            }
+        }
+    }
+    & .cloud1{
+        top: -15px;
+        //left: 50px;
+        animation:Cloud $cloudSpeed linear infinite;
+        /* -------COLORS --------*/
+        // row --- 1
+        & .row1{
+            .c1, .c2 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c1 {
+                width: 40%;
+                left: 15px;
+            }
+            .c2{
+                width: 15px;
+                right: 50px;
+            }
+        }
+
+        & .row2{
+            .c3, .c4 {
+                @include cloudDarkCOlor;
+            }
+
+            .c3 {
+                width: 30px;
+                left: -5px;
+            }
+            .c4{
+                width: 100px;
+                left: 65px;
+            }
+        }
+        & .row3{
+            .c5, .c6 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c5 {
+                width: 80%;
+                left: 0px;
+            }
+            .c6{
+                width: 20px;
+                right: 0px;
+            }
+        }  
+        
+        & .row4{
+            .c7, .c8 {
+                @include cloudDarkCOlor;
+            }
+
+            .c7 {
+                width: 50px;
+                left: -15px;
+            }
+            .c8{
+                width: 100px;
+                left: 90px;
+            }
+        }
+        & .row5{
+            .c9, .c10 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c9 {
+                width: 65%;
+                left: 10px;
+            }
+            .c10{
+                width: 15px;
+                right: 15px;
+            }
+        }
+
+    }
+    & .cloud2{
+        right: -200px;
+        top: -140px;
+        animation:Cloud $cloudSpeed linear $cloudDelay infinite;
+        // row --- 1
+        & .row1{
+            .c1, .c2 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c1 {
+                width: 40%;
+                left: 40px;
+            }
+            .c2{
+                width: 15px;
+                right: 25px;
+            }
+        }
+
+        & .row2{
+            .c3, .c4 {
+                @include cloudDarkCOlor;
+            }
+
+            .c3 {
+                width: 55px;
+                left: -3px;
+            }
+            .c4{
+                width: 100px;
+                left: 90px;
+            }
+        }
+        & .row3{
+            .c5, .c6 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c5 {
+                width: 80%;
+                left: 0px;
+            }
+            .c6{
+                width: 20px;
+                right: 0px;
+            }
+        }  
+        
+        & .row4{
+            .c7, .c8 {
+                @include cloudDarkCOlor;
+            }
+
+            .c7 {
+                width: 50px;
+                left: -10px;
+            }
+            .c8{
+                width: 100px;
+                left: 85px;
+            }
+        }
+        & .row5{
+            .c9, .c10 {
+                @include cloudLightCOlor($cloud1Color);
+            }
+
+            .c9 {
+                width: 50%;
+                left: 20px;
+            }
+            .c10{
+                width: 15px;
+                right: 30px;
+            }
+        }
+    }
+}
+
+.carBodyContainerBase{
+    height: 60px;
+    width: 120px;
+}
+
+// ** MAIN BODY **//
+.carMidMainBody{
+    z-index: 99;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+
+    & .upperPart, & .lowerPart{
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        //border: $commonBorder;
+    }
+
+    & .upperPart{
+        top: 0px;
+        width: 100%;
+        height: 30px;
+        background:#F5DAB4;
+        border: $commonBorder;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: 100%;
+        grid-column-gap: 5px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 30px;
+        padding: 4px;
+        overflow: hidden;
+        animation: BodyShakeUpper $bodyShakeTime linear infinite;
+
+        & .window{
+            background: $lineColor;
+            height: 18px;
+            border-radius: 3px;
+        }
+
+        & .window1{
+            width: 24px;
+            border-top-left-radius: 9px;
+        }
+
+        & .window2{
+            width: 38px;
+        }
+
+        & .window3{
+            width: 25px;
+            border-top-right-radius: 100px 70px;
+        }
+
+        & .windowSlider{
+            z-index: 5;
+            position: absolute;
+            right: 12px;
+            top: -2px;
+            height: 28px;
+            width: 5px;
+            background: #f3dfc4;
+            transform: rotate(-30deg);
+            animation: WindowSlider $windowSliderSpeed linear infinite;
+
+            &::after{
+                content: " ";
+                position: absolute;
+                top: 4px;
+                height: 30px;
+                width: 1px;
+                right: -4px;
+                background: #f3dfc4;
+            }
+        }
+
+        // lines -- upper
+        & .line1{
+            z-index: 9;
+            position: absolute;
+            left: 31px;
+            bottom: 0;
+            height: 20px;
+            width: $lineBorderWidth;
+            background: $lineColor;  
+        }
+
+        & .line2{
+            z-index: 9;
+            position: absolute;
+            right: 35px;
+            bottom: 0;
+            height: 16px;
+            width: $lineBorderWidth;
+            background: $lineColor;  
+        }
+
+
+
+    }
+
+    & .lowerPart{
+        top: 30px;
+        height: 35px;
+        width: 100%;
+        background: #E51827;
+        border: $commonBorder;
+        border-top: none;
+        animation: BodyShakeLower $bodyShakeTime linear infinite;
+
+
+        //* ---LINES--- *//
+        & .Llines{
+            position: absolute;
+            height: $lineBorderWidth;
+            background: $lineColor;
+            top: 1.5px;
+        }
+        & .lines1{
+            left: 3px;
+            width: 25px;
+        }
+        & .lines2{
+            left: 32px;
+            width: 18px;
+        }
+        & .lines3 {
+            left: 55px;
+            width: 6px;
+        }
+        & .lines4 {
+            right: 17px;
+            width: 34px;
+        }
+        & .lines5 {
+            right: 4px;
+            width: 11px;
+        }
+        & .lines6 {
+            top: 8px;
+            right: 24px;
+            width: 8px;
+        }
+        & .lines7 {
+            top: 8px;
+            right: 40px;
+            width: 8px;
+        }
+        & .Vlines{
+            position: absolute;
+            width: $lineBorderWidth;
+            background: $lineColor;
+        }
+        & .Vline1{
+            right: 35px;
+            height: 7px;
+            top: 6px;
+        }
+        & .Vline2{
+            top: 16px;
+            right: 35px;
+            height: 7px;
+        }
+        & .Vline3{
+            top: 6px;
+            left: 31px;
+            height: 16px;
+        }
+
+        /**** Guard *****/
+        $GuardWidth: 30px;
+        & .Guard{
+            position: absolute;
+            width: $GuardWidth;
+            bottom: 0px;
+            background:$mainBgColor;
+        }
+        & .GuardLeft{
+            bottom: -9px;
+            left: 12px;
+            height: 14px;
+            background:$mainBgColor;
+            border: $lineBorderWidth solid $lineColor;
+            border-bottom: none;
+            border-radius: 6px;
+
+            &::after, &::before{
+                position: absolute;
+                content: " ";
+                background:$mainBgColor;
+                height: 7px;
+                width: 10px;
+                bottom: -1px;
+            }
+
+            &::after{
+                left: -5px;
+            }
+            &::before{
+                right: -5px;
+            }
+        }
+        & .GuardLeftFix{
+            z-index: 9;
+            position: absolute;
+            bottom: 2px;
+            left: 18px;
+            height: 8px;
+            border-bottom: $lineBorderWidth solid $lineColor;
+            width: 20px;
+            background: #E51827;
+            
+
+        }
+        & .GuardRight{
+            right: 12px;
+            width: 30px;
+            width: $GuardWidth;
+            height: $GuardWidth;
+            border-radius: 50%;
+            bottom: -18px;
+            border: $lineBorderWidth solid $lineColor;
+
+            &::after {
+                position: absolute;
+                content: " ";
+                height: 14px;
+                width: 38px;
+                background:$mainBgColor;
+                bottom: -1px;
+                left: -8px;
+            }
+        }
+
+        /**** BUMPER *****/
+        $bumperHeight: 10px;
+
+        & .Bumper{
+            height: $bumperHeight;
+            position: absolute;
+            background:#F5DAB4;
+            border: $lineBorderWidth solid $lineColor;
+            border-radius: 5px;
+        }
+
+        & .BumperFront{
+            z-index: 2;
+            bottom: -5px;
+            width: 14px;
+            right: -6px;
+
+        }
+        & .BumperRear{
+            width: 16px;
+            bottom: -5px;
+            left: -8px;
+        }
+
+        /**** Ladder *****/
+        .ladder{
+            position: absolute;
+            height: 48px;
+            width: 9px;
+            bottom: 6px;
+            left: -13px;
+            border: $lineBorderWidth solid $lineColor;
+            border-bottom: none;
+            border-left: none;
+            border-top-right-radius: 10px;
+
+            & .step{
+                position: absolute;
+                width: 6px;
+                height: $lineBorderWidth;
+                background: $lineColor;
+                right: -6px;
+            }
+            & .step1{
+                bottom: 5px;
+            }
+            & .step2{
+                bottom: 20px;
+            }
+            & .step3{
+                bottom: 35px;
+            }
+            
+        }
+        /**** Headlight *****/
+        .headlight{
+            background: #B56767;
+            z-index: 1;
+            position: absolute;
+            height: 34px;
+            width: 11px;
+            right: -12px;
+            border: $lineBorderWidth solid $lineColor;
+            border-radius: 8px;
+            bottom: 2px;
+            overflow: hidden;
+
+            & .lightMid{
+                height: 100%;
+                position: absolute;
+                width: 1px;
+                background: #fff;
+                left: 50%;
+                top: 0px;
+                transform: translateX(-50%);
+            }
+
+            & .dot {
+                z-index: 9;
+                position: absolute;
+                width: 5px;
+                height: 5px;
+                background: #820D2B;
+            }
+
+            & .dot1{
+                left: -3px;
+                bottom: 2px;
+            }
+            & .dot2{
+                right: -3px;
+                bottom: 0px;
+            }
+
+            & .dot3{
+                right: 0px;
+                top: 13px;
+            }
+            & .dot4{
+                left: -3px;
+                top: 2px;
+            }
+
+            
+        }
+    }
+
+    & .topRoof{
+        width: 68%;
+        height: 6px;
+        position: absolute;
+        top: -4px;
+        left: 45%;
+        transform: translateX(-50%);
+        border-top: $lineBorderWidth solid $lineColor;
+        animation: BodyShakeTopRoof $bodyShakeTime linear infinite;
+
+        &::after, &::before{
+            content: " ";
+            position: absolute;
+            width: $lineBorderWidth;
+            height: 4px;
+            background: $lineColor;
+        }
+
+        &::after{
+            left: 15px;
+        }
+
+        &::before{
+            right: 20px;
+        }
+    }
+}
+
+
+// ** WHEELS **//
+$wheelWidth: 24px;
+$innerWheelWidth: 12px;
+$innerRadius: 9px;
+
+.wheel{
+    z-index: 8;
+    position: absolute;
+    height: $wheelWidth;
+    width: $wheelWidth;
+    border-radius: 50%;
+    background: $lineColor;
+    animation: Wheels $wheelsSpeed linear infinite;
+    .innerCircle{
+        height: $innerWheelWidth;
+        width: $innerWheelWidth;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: $mainBgColor;
+        //background: #F5DAB4;
+        border-radius: 50%;
+    }
+    .innerRadius{
+        height: $innerRadius;
+        width: $innerRadius;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        border: 2px solid $lineColor;
+        background: #F5DAB4;
+
+        &::after {
+            position: absolute;
+            top: -1px;
+            left: -2px;
+            content: "";
+            height: 3px;
+            width: 3px;
+            background: #fff;
+            border-radius: 50%;
+        }
+    }
+}
+
+.wheelLeft{
+    left: 17px;
+    bottom: -20px;
+}
+
+.wheelRight{
+    right: 17px;
+    bottom: -20px;
+}
+
+// ** ROAD **/
+.road {
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    bottom: -35.5px;
+    height: 15px;
+    width: 200%;
+    border-left: none;
+    border-right: none;
+    overflow: hidden;
+
+    & .roadGap{
+        position: absolute;
+        height: 5px; 
+        background: $mainBgColor;
+        background: $lineColor;
+        border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    & .roadGap1{
+        right: 0px;
+        top: 0px;
+        width: 30px;
+    }
+
+    & .roadGap2{
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0px;
+        width: 220px;
+    }
+
+    & .roadGap3{
+        left: 0px;
+        top: 0px;
+        width: 30px;
+    }
+
+    & .roadGap4{
+        left: 45px;
+        bottom: 0px;
+        width: 30px;
+    }
+
+    & .roadGap5{
+        left: 82px;
+        bottom: 0px;
+        width: 65px;
+    }
+
+    & .roadGap6{
+        left: 155px;
+        bottom: 0px;
+        width: 65px;
+    }
+
+    & .roadGap7{
+        right: 40px;
+        bottom: 0px;
+        width: 30px;
+    }
+
+    // -- ANIIMARION ROAD DOTS
+    & .RoadAnimation1{
+        width: 10px;
+        top: 0px;
+        left: 105%;
+        background: $mainBgColor;
+        width: 10px;
+        border-radius: 0px;
+        animation: Road1 $roadTime linear infinite;
+    }
+
+    & .RoadAnimation2{
+        width: 10px;
+        bottom: 0px;
+        left: 90%;
+        background: $mainBgColor;
+        border-radius: 0px;
+        animation: Road2 $roadTime linear infinite;
+    }
+
+
+}
+
+/* -------ANIMATIONS KEYFRAMES---------*/
+//--CLOUD
+@keyframes Cloud {
+    0%{
+        left: 110%;
+        left: calc(100% + 150px);
+        opacity: 0 ;
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        left: -150px;
+        opacity: 0;
+    }
+}
+@keyframes Wheels {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+@keyframes Road1 {
+    to{
+        left: -5%;
+    }
+}
+@keyframes Road2 {
+    to{
+        left: 10%;
+    }
+}
+@keyframes BodyShakeUpper {
+   0%{
+       top: 0px;
+   }
+   50%{
+       top: -3px;
+   }
+   100%{
+       top: 0px;
+   }
+}
+@keyframes BodyShakeLower {
+    0%{
+        top: 30px;
+    }
+    50%{
+        top: 27px;
+    }
+    100%{
+        top: 30px;
+    }
+ }
+@keyframes BodyShakeTopRoof {
+0%{
+    top: -4px;
+}
+50%{
+    top: -7px;
+}
+100%{
+    top: -4px;
+}
+}
+@keyframes WindowSlider {
+    to {
+        right: 100%;
+    }
+}
+
+@media only screen and (min-width: 320px) {
+        // ** ROAD **/
+        // chaging width only
+    .road {
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        bottom: -35.5px;
+        height: 15px;
+        width: 250%;
+        border-left: none;
+        border-right: none;
+        overflow: hidden;
+
+        & .roadGap{
+            position: absolute;
+            height: 5px; 
+            background: $mainBgColor;
+            background: $lineColor;
+            border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        & .roadGap1{
+            right: 0px;
+            top: 0px;
+            width: 30px;
+        }
+
+        & .roadGap2{
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0px;
+            width: 220px;
+        }
+
+        & .roadGap3{
+            left: 0px;
+            top: 0px;
+            width: 30px;
+        }
+
+        & .roadGap4{
+            left: 45px;
+            bottom: 0px;
+            width: 30px;
+        }
+
+        & .roadGap5{
+            left: 82px;
+            bottom: 0px;
+            width: 65px;
+        }
+
+        & .roadGap6{
+            left: 155px;
+            bottom: 0px;
+            width: 65px;
+        }
+
+        & .roadGap7{
+            right: 40px;
+            bottom: 0px;
+            width: 30px;
+        }
+
+        // -- ANIIMARION ROAD DOTS
+        & .RoadAnimation1{
+            width: 10px;
+            top: 0px;
+            left: 105%;
+            background: $mainBgColor;
+            width: 10px;
+            border-radius: 0px;
+            animation: Road1 $roadTime linear infinite;
+        }
+
+        & .RoadAnimation2{
+            width: 10px;
+            bottom: 0px;
+            left: 90%;
+            background: $mainBgColor;
+            border-radius: 0px;
+            animation: Road2 $roadTime linear infinite;
+        }
+
+
+    }
+
+}
+
+@media only screen and (min-width: 350px){
+    .sceneMainWrapper{
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        height: 200px;
+        width: 340px;
+    }
+}
+
+@media only screen and (min-height: 400px){
+    .mainAllContainer {
+        background: $mainBgColor;
+        height: 100vh;
+        width: 100vw;
+        display: grid;
+        @include gridCentre;
+        overflow: hidden;
+        align-content: center;
+    }
+}
+
+
+
+
+
+
+
+

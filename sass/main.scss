@@ -1,0 +1,16 @@
+
+
+
+
+// sytles -- 
+body,*, *::after, *::before{
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    box-sizing: border-box;
+}
+body {
+    background: #F5AA28;
+}
+@import '_smalldevice';
+
